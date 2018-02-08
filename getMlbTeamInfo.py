@@ -4,13 +4,12 @@ import mysql.connector
 
 from settings import *
 
-truncate_teams_table = ("TRUNCATE TABLE teams")
 add_teams = ("INSERT INTO teams (name, short_name, abbreviation, mlb_id) VALUES (%s, %s, %s, %s)")
 
 base_url = "http://lookup-service-prod.mlb.com/lookup/json/"
-api_extension = "named.historical_standings_schedule_date.bam?season=2017&game_date='2017/10/01'&sit_code='h0'&league_id=103&league_id=104"
+api_extension_team_info = "named.historical_standings_schedule_date.bam?season=2017&game_date='2017/10/01'&sit_code='h0'&league_id=103&league_id=104"
 
-response = requests.get(base_url + api_extension).json()
+response = requests.get(base_url + api_extension_team_info).json()
 # Response structure
 # historical_standings_schedule_date.standings_all_date_rptr.standings_all_date is an array of two leagues
 # Each array is object (dictionary) of league_id and queryResults
@@ -23,7 +22,9 @@ cnx = mysql.connector.connect(user=MYSQL_USER, password=MYSQL_PASSWORD, host=MYS
 cursor = cnx.cursor()
 
 # Script gets all teams so truncate table first
-cursor.execute(truncate_teams_table)
+cursor.execute("SET FOREIGN_KEY_CHECKS = 0")
+cursor.execute("TRUNCATE TABLE teams")
+cursor.execute("SET FOREIGN_KEY_CHECKS = 1")
 
 for league in mlb_data:
     team_data = league["queryResults"]["row"]
