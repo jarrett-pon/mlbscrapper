@@ -1,2 +1,9 @@
 # Git
 .git
+
+# Private info
+dev_settings.py
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
