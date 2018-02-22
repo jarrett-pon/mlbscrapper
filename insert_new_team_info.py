@@ -33,4 +33,6 @@ database_teams = db.query(GET_TEAMS)
 database_teams = [team[0] for team in database_teams]
 # Only add teams that weren't already in the DB based on mlb id
 all_team_data = [team for team in all_team_data if int(team[3]) not in database_teams ]
+
+print("New teams", all_team_data)
 db.insert(ADD_TEAMS, all_team_data, many=True)

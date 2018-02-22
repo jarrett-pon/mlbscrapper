@@ -19,12 +19,13 @@ class Database:
             else:
                 self.cursor.execute(query, *args)
             self.connection.commit()
-        except:
-            self.connection.rollback()
+        except mysql.connector.Error as err:
+          print("Something went wrong: {}".format(err))
+          self.connection.rollback()
 
-    def query(self, query):
+    def query(self, query, *args):
         cursor = self.connection.cursor()
-        cursor.execute(query)
+        cursor.execute(query, *args)
 
         return cursor.fetchall()
 
