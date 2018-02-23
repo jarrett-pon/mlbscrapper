@@ -1,4 +1,4 @@
-# Get active players from all teams 40 man roster
+"""Get active players from all teams 40 man roster."""
 from bs4 import BeautifulSoup
 import urllib.request
 import re
@@ -8,8 +8,9 @@ from classes.database import Database
 # MySQL query constants
 GET_TEAMS = ("SELECT id, abbreviation FROM teams")
 
+
 def get_active_players():
-    # Connect to mysql database
+    """Get active players by scrapping all 40 man active rosters on mlb.com."""
     db = Database()
 
     mlb_teams = db.query(GET_TEAMS)
@@ -22,7 +23,8 @@ def get_active_players():
         team_abbrev = team[1].lower()
 
         # Gets active 40 man rosters only
-        with urllib.request.urlopen('http://m.mlb.com/' + team_abbrev + '/roster/40-man/') as url:
+        link = 'http://m.mlb.com/' + team_abbrev + '/roster/40-man/'
+        with urllib.request.urlopen(link) as url:
             r = url.read()
 
         soup = BeautifulSoup(r, 'html.parser')
@@ -30,7 +32,7 @@ def get_active_players():
         for player in soup.find_all('td', class_='dg-name_display_first_last'):
             if(player.a is not None):
                 link = player.a.get('href')
-                player_id = re.search('\/player\/([\d]+)\/',link).group(1)
+                player_id = re.search('\/player\/([\d]+)\/', link).group(1)
                 player_name = player.a.get_text()
                 all_player_info.append((player_id, player_name, team_id))
 
