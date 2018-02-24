@@ -50,7 +50,7 @@ def update_last_active_year():
                             if game_type["game_type"] == "R"]
         else:
             years_played = []
-        print(years_played)
+
         last_active_year = max(years_played) if len(years_played) > 0 else 0
         all_last_active_year_players.append((last_active_year, players_id))
 
