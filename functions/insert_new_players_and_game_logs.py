@@ -57,7 +57,8 @@ def insert_new_players_and_game_logs():
             primary_stat_type = results["row"][0]["primary_stat_type"]
 
         player_data = (player_name, player_id, team_id, primary_stat_type)
-        all_player_data.append(player_data)
+        if(player_data not in all_player_data):
+            all_player_data.append(player_data)
 
     print("New Players", all_player_data)
     db.insert(ADD_PLAYERS, all_player_data, many=True)

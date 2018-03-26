@@ -10,6 +10,7 @@ class Database:
     user = MYSQL_USER
     password = MYSQL_PASSWORD
     db = 'mlbstats'
+    ssl_ca_dir = '/etc/ssl/certs/rds-combined-ca-bundle.pem'
 
     def __init__(self):
         """Init function for database class."""
@@ -17,7 +18,9 @@ class Database:
             host=self.host,
             user=self.user,
             password=self.password,
-            database=self.db
+            database=self.db,
+            ssl_ca=self.ssl_ca_dir,
+            ssl_verify_cert=True
         )
         self.cursor = self.connection.cursor()
 
