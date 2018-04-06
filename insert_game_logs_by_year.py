@@ -51,6 +51,11 @@ ADD_GAME_LOGS_PITCHING = (
 # database_players comes in as a list with tuple/list structure:
 # (id, mlb_id, primary_stat_type)
 def insert_game_logs_by_year(year):
+    [duplicate_pitchers, duplicate_hitters] = check_duplicate_game_logs()
+
+    if (len(duplicate_pitchers) > 0 or len(duplicate_hitters) > 0):
+        return
+
     """Insert only new game logs by year."""
     db = Database()
     database_players = db.query(GET_PLAYERS)
@@ -75,7 +80,7 @@ def insert_game_logs_by_year(year):
                 print("Could not find pitching_log_results")
                 print(players_id)
                 print(year)
-                continue
+                return
             game_logs_count = pitching_log_results["totalSize"]
             if game_logs_count == "0":
                 game_logs = []
@@ -110,7 +115,7 @@ def insert_game_logs_by_year(year):
                 print("Could not find hitting_log_results")
                 print(players_id)
                 print(year)
-                continue
+                return
             game_logs_count = hitting_log_results["totalSize"]
             if game_logs_count == "0":
                 game_logs = []

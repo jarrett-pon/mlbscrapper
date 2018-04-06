@@ -20,3 +20,5 @@ def check_duplicate_game_logs():
     print("Duplicate Pitchers:", duplicate_pitchers)
     duplicate_hitters = db.query(GET_DUPLICATE_HITTERS)
     print("Duplicate Hitters:", duplicate_hitters)
+
+    return [duplicate_pitchers, duplicate_hitters]
