@@ -78,6 +78,7 @@ def insert_game_logs_by_year(year):
                 )
             except KeyError:
                 print("Could not find pitching_log_results")
+                print(link)
                 print(players_id)
                 print(year)
                 return
@@ -113,6 +114,7 @@ def insert_game_logs_by_year(year):
                 )
             except KeyError:
                 print("Could not find hitting_log_results")
+                print(link)
                 print(players_id)
                 print(year)
                 return
